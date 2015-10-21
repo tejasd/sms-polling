@@ -1,8 +1,12 @@
 'use strict';
 var app = require('express')();
+var bodyParser = require('body-parser');
 
-app.get('/smsReceived', function(req, res) {
-	console.log(req);
+// Third party middleware
+app.use(bodyParser.json());
+
+app.post('/smsReceived', function(req, res) {
+	console.log(req.body);
 })
 
 app.set('port', (process.env.PORT || 5000));
