@@ -1,0 +1,14 @@
+{
+  "name": "sms-audience-polling",
+  "version": "1.0.0",
+  "description": "Node.js app to collect statistics on audience voting",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tejas Deshpande",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.13.3"
+  }
+}
