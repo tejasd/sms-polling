@@ -1,5 +1,7 @@
 'use strict';
 var app = require('express')();
+var pg = require('pg');
+var connectionString = process.env.DATABASE_URL;
 
 // Setup SMS format Regex
 var smsRegex = new RegExp(/MD [A-H]/);
@@ -20,6 +22,28 @@ app.get('/smsReceived', function(req, res) {
 		console.log(text[3]);
 		console.log('Valid Vote received');
 		// 'insert into Votes (PhoneNo, Vote) values ('+15132231672', 'B') on duplicate key update Vote = 'B';'
+		// insert it into the database
+		// Get a Postgres client from the connection pool
+	    pg.connect(connectionString, function(err, client, done) {
+	        // Handle connection errors
+	        if(err) {
+	          done();
+	          console.log(err);
+	          res.status(500).json({ success: false, data: err});
+	        }
+
+	        // SQL Query > Insert Data
+	        client.query("INSERT INTO \"Votes\" (phoneno, vote) values($1, $2)", [sender, text[3]], function(err, result) {
+	        	if (err) {
+	        		console.log('error: ' + err);
+	        		res.status(500).json({ success: false, data: err});
+	        	} else {
+	        		console.log('success: ' + result);
+	        		res.status(200).json({ success: true, data: result});
+	        		done();
+	        	}
+	        });
+	    });
 	} else {
 		console.log('Invalid Vote');
 	}
