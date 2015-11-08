@@ -7,6 +7,8 @@ var voteKeywords = require('./utilities/loadWords.js').voteKeywords;
 var eventKeywords = require('./utilities/loadWords.js').eventKeywords;
 var votes_table = require('./schema.js').votes;
 
+var trim = require('trim');
+
 console.log(voteKeywords);
 console.log(eventKeywords);
 
@@ -20,6 +22,9 @@ app.get('/smsReceived', function(req, res) {
 
 	// No point in keeping the request open since we aren't communicating with nexmo
 	res.sendStatus(200);
+
+	// All of this logic should go into a separate "clean string method"
+	req.query.text = trim(req.query.text);
 
 	// Should prevent any unwanted data
 	// var text = smsRegex.exec(req.query.Body);
@@ -36,7 +41,7 @@ app.get('/smsReceived', function(req, res) {
 	pollInstance = eventKeywords[pollInstance];
 
 	// Parsing response
-	var choice = req.query.text ? req.query.text.toLowerCase().split(" ")[1] : '';
+	var choice = req.query.text ? req.query.text.toLowerCase().substring(pollInstance.length + 1, req.query.text.length) : '';
 	choice = voteKeywords[pollInstance] ? voteKeywords[pollInstance][choice] : '';
 	choice = choice !== undefined ? choice : '';
 
@@ -47,7 +52,7 @@ app.get('/smsReceived', function(req, res) {
 		console.log(choice);
 		console.log('Valid Vote received');
 		
-		registerVote(pollInstance, choice);
+		registerVote(pollInstance, choice, sender);
 	    
 	} else {
 		console.log('Invalid Vote');
@@ -68,27 +73,31 @@ var server = app.listen(app.get('port'), function () {
   console.log('SMS audience polling is being hosted at http://%s:%s', host, port);
 });
 
-var registerVote = function(event_name, choice) {
+var registerVote = function(event_name, choice, sender) {
 
-	var insertQuery = votes_table.insert(votes_table.event_name.value(event_name), votes_table.choice.value(choice)).toQuery();
+	var insertQuery = votes_table.insert(votes_table.event_name.value(event_name), 
+		votes_table.choice.value(choice),
+		votes_table.phone_no.value(sender)).toQuery();
 	// var updateQuery = votes_table.update()
 	console.log(insertQuery);
-	
+
 	pg.connect(connectionString, function(err, client, done) {
 	        // Handle connection errors
 	        if(err) {
 	          done();
 	          console.log(err);
+	        } else {
+	        	// SQL Query > Insert Data
+		        client.query(insertQuery.text, insertQuery.values, function(err, result) {
+		        	if (err) {
+		        		console.log('error: ' + err);
+		        	} else {
+		        		console.log('success: ' + result);
+		        		done();
+		        	}
+		        });
 	        }
 
-	        // SQL Query > Insert Data
-	        client.query(insertQuery.text, insertQuery.values, function(err, result) {
-	        	if (err) {
-	        		console.log('error: ' + err);
-	        	} else {
-	        		console.log('success: ' + result);
-	        		done();
-	        	}
-	        });
+	        
 	    });
 }
