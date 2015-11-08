@@ -64,7 +64,13 @@ app.post('/smsReceived', function(req, res) {
 });
 
 app.get('/seeVotes', function(req, res) {
-	countVotes(res);
+	countVotes(function(result, err) {
+		if (err) {
+			res.sendStatus(500);
+		} else {
+			res.send(result);
+		}
+	});
 });
 
 app.set('port', (process.env.PORT || 5000));
@@ -104,7 +110,7 @@ var registerVote = function(event_name, choice, sender) {
 	    });
 }
 
-var countVotes = function(response) {
+var countVotes = function(callback) {
 	var countQuery = votes_table.select(votes_table.event_name, votes_table.choice, votes_table.count())
 								.group(votes_table.event_name, votes_table.choice)
 								.toQuery();
@@ -119,15 +125,13 @@ var countVotes = function(response) {
 		        client.query(countQuery.text, countQuery.values, function(err, result) {
 		        	if (err) {
 		        		console.log('error: ' + err);
-		        		res.sendStatus(500);
+		        		callback(null, err);
 		        	} else {
 		        		console.log('success: ' + result.rows[0]);
 		        		done();
-		        		response.send(result.rows);
+		        		callback(result.rows, null);
 		        	}
 		        });
 	        }   
 	    });
-
-	console.log(countQuery);
 }
