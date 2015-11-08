@@ -73,6 +73,10 @@ app.get('/seeVotes', function(req, res) {
 	});
 });
 
+app.get('/validChoices', function(req, res) {
+	res.send(voteKeywords);
+});
+
 app.set('port', (process.env.PORT || 5000));
 
 var server = app.listen(app.get('port'), function () {
