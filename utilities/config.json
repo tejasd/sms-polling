@@ -1,0 +1,8 @@
+{
+	"keywordToEvent": {
+			"jhalak": "jhalak",
+			"chaos": "chaos" 
+	},
+	"events": ["jhalak"],
+	"keywordFiles": ["jhalak.json"]
+}

@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.14.1",
+    "easynexmo": "^0.6.6",
     "express": "^4.13.3",
     "pg": "4.4.3"
   }
