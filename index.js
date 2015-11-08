@@ -63,6 +63,10 @@ app.post('/smsReceived', function(req, res) {
 	res.sendStatus(200);
 });
 
+app.get('/seeVotes', function(req, res) {
+	countVotes(res);
+});
+
 app.set('port', (process.env.PORT || 5000));
 
 var server = app.listen(app.get('port'), function () {
@@ -92,12 +96,38 @@ var registerVote = function(event_name, choice, sender) {
 		        	if (err) {
 		        		console.log('error: ' + err);
 		        	} else {
-		        		console.log('success: ' + result);
+		        		console.log('success: ' + result.rows[0]);
 		        		done();
 		        	}
 		        });
-	        }
-
-	        
+	        }   
 	    });
+}
+
+var countVotes = function(response) {
+	var countQuery = votes_table.select(votes_table.event_name, votes_table.choice, votes_table.count())
+								.group(votes_table.event_name, votes_table.choice)
+								.toQuery();
+
+	pg.connect(connectionString, function(err, client, done) {
+	        // Handle connection errors
+	        if(err) {
+	          done();
+	          console.log(err);
+	        } else {
+	        	// SQL Query > Insert Data
+		        client.query(countQuery.text, countQuery.values, function(err, result) {
+		        	if (err) {
+		        		console.log('error: ' + err);
+		        		res.sendStatus(500);
+		        	} else {
+		        		console.log('success: ' + result.rows[0]);
+		        		done();
+		        		response.send(result.rows);
+		        	}
+		        });
+	        }   
+	    });
+
+	console.log(countQuery);
 }
