@@ -64,7 +64,7 @@ app.post('/smsReceived', function(req, res) {
 	res.sendStatus(200);
 });
 
-app.get('/seeVotes', function(req, res) {
+app.get('/votes', function(req, res) {
 	countVotes(function(result, err) {
 		if (err) {
 			res.sendStatus(500);
