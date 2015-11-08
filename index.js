@@ -5,6 +5,7 @@ var connectionString = process.env.DATABASE_URL;
 
 var voteKeywords = require('./utilities/loadWords.js').voteKeywords;
 var eventKeywords = require('./utilities/loadWords.js').eventKeywords;
+var originalKeywords = require('./utilities/loadWords.js').originalKeywords;
 var votes_table = require('./schema.js').votes;
 
 var trim = require('trim');
@@ -74,7 +75,7 @@ app.get('/seeVotes', function(req, res) {
 });
 
 app.get('/validChoices', function(req, res) {
-	res.send(voteKeywords);
+	res.send(originalKeywords);
 });
 
 app.set('port', (process.env.PORT || 5000));

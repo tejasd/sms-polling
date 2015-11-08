@@ -8,10 +8,14 @@ var pathPrefix = './utilities/keywords/'
 
 var readMultipleKeywordFiles = function() {
 	var result = {};
+	result["voteKeywords"] = {};
+	result["listOfKeywords"] = {};
+	
 
 	for (var i = 0; i < config.keywordFiles.length; ++i) {
 		var compKeywords = JSON.parse(fs.readFileSync(pathPrefix + config.keywordFiles[i], 'utf8'));
-		result[config.events[i]] = createDictionaryOfValidKeywords(compKeywords);
+		result.voteKeywords[config.events[i]] = createDictionaryOfValidKeywords(compKeywords);
+		result.listOfKeywords[config.events[i]] = compKeywords;
 	}
 
 	return result;
@@ -29,8 +33,10 @@ var createDictionaryOfValidKeywords = function(givenDict) {
 	return newDict;
 }
 
-module.exports.voteKeywords = readMultipleKeywordFiles();
+module.exports.voteKeywords = readMultipleKeywordFiles().voteKeywords;
 module.exports.eventKeywords = config.keywordToEvent;
+module.exports.originalKeywords = readMultipleKeywordFiles().listOfKeywords;
+
 
 
 
