@@ -24,6 +24,7 @@ var readMultipleKeywordFiles = function() {
 var createDictionaryOfValidKeywords = function(givenDict) {
 	var newDict = {}
 	for (key in givenDict) {
+		key = String(key);
 		keyWordsList = givenDict[key];
 		for (var i = 0; i < keyWordsList.length; ++i) {
 			newDict[keyWordsList[i].toLowerCase()] = key.toLowerCase();
