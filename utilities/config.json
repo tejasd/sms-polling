@@ -1,8 +1,8 @@
 {
 	"keywordToEvent": {
-			"bhangra": "bhangra",
-			"fusion": "fusion" 
+			"bhangra_test": "bhangratest",
+			"fusion_test": "fusiontest" 
 	},
-	"events": ["bhangra", "fusion"],
+	"events": ["bhangra_test", "fusion_test"],
 	"keywordFiles": ["bhangra.json", "bhangra.json"]
 }
