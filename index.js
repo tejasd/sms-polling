@@ -3,9 +3,9 @@ var app = require('express')();
 var pg = require('pg');
 var connectionString = process.env.DATABASE_URL;
 
-var voteKeywords = require('./utilities/loadWords.js').voteKeywords;
-var eventKeywords = require('./utilities/loadWords.js').eventKeywords;
-var originalKeywords = require('./utilities/loadWords.js').originalKeywords;
+var voteKeywords = require('./utilities/loadWords').voteKeywords;
+var eventKeywords = require('./utilities/loadWords').eventKeywords;
+var originalKeywords = require('./utilities/loadWords').originalKeywords;
 var votes_table = require('./schema.js').votes;
 
 var trim = require('trim');

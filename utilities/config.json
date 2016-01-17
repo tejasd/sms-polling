@@ -1,8 +1,8 @@
 {
 	"keywordToEvent": {
-			"jhalak": "jhalak",
-			"chaos": "chaos" 
+			"bhangra": "bhangra",
+			"fusion": "fusion" 
 	},
-	"events": ["jhalak"],
-	"keywordFiles": ["jhalak.json"]
+	"events": ["bhangra", "fusion"],
+	"keywordFiles": ["bhangra.json", "bhangra.json"]
 }
