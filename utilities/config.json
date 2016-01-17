@@ -4,5 +4,5 @@
 			"fusion_test": "fusiontest" 
 	},
 	"events": ["bhangra_test", "fusion_test"],
-	"keywordFiles": ["bhangra.json", "bhangra.json"]
+	"keywordFiles": ["generic.json", "generic.json"]
 }
