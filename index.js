@@ -43,6 +43,7 @@ app.get('/smsReceived', function(req, res) {
 
 	// Parsing response
 	var choice = req.query.text ? req.query.text.toLowerCase().substring(pollInstance.length + 1, req.query.text.length) : '';
+	choice = String(choice);
 	choice = voteKeywords[pollInstance] ? voteKeywords[pollInstance][choice] : '';
 	choice = choice !== undefined ? choice : '';
 
