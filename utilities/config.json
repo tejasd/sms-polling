@@ -1,5 +1,6 @@
 {
 	"keywordToEvent": {
+			"testkeyword": "test_event",
 			"bhangratest": "bhangra_test",
 			"fusiontest": "fusion_test" 
 	},
