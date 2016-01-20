@@ -4,7 +4,7 @@
   "description": "Node.js app to collect statistics on audience voting",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "DATABASE_URL=\"postgres://qbuzossqgpxgec:SPBpllHtarKtac5Yop-Y_E_jXI@ec2-54-225-199-108.compute-1.amazonaws.com:5432/d5h1hsslntnoe5?ssl=true\" node index.js"
   },
   "author": "Tejas Deshpande",
   "license": "MIT",

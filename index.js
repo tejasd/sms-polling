@@ -24,8 +24,11 @@ app.get('/smsReceived', function(req, res) {
 	// No point in keeping the request open since we aren't communicating with nexmo
 	res.sendStatus(200);
 
+	console.log('Received Text: ' + req.query.text);
+	console.log('From msisdn: ' + req.query.msisdn);
+
 	// All of this logic should go into a separate "clean string method"
-	req.query.text = trim(req.query.text);
+	req.query.text = req.query.text ? trim(req.query.text) : '';
 
 	// Should prevent any unwanted data
 	// var text = smsRegex.exec(req.query.Body);
@@ -33,17 +36,13 @@ app.get('/smsReceived', function(req, res) {
 	var sender = phoneNoRegex.exec(req.query.msisdn);
 	sender = sender ? sender[0] : '';
 
-	// // If deciding event based on Phone number sent to
-	// var pollInstance = eventKeywords[sender];
-
 	// If deciding event based on prefix keyword (eg. JHALAK in 'JHALAK Qurbani')
 	var pollInstance = req.query.text ? req.query.text.toLowerCase().split(" ")[0] : '';
 	console.log(pollInstance);
 	pollInstance = eventKeywords[pollInstance];
 
 	// Parsing response
-	var choice = req.query.text ? req.query.text.toLowerCase().substring(pollInstance.length + 1, req.query.text.length) : '';
-	choice = String(choice);
+	var choice = req.query.text ? req.query.text.toLowerCase().split(" ")[1] : ''
 	choice = voteKeywords[pollInstance] ? voteKeywords[pollInstance][choice] : '';
 	choice = choice !== undefined ? choice : '';
 
@@ -53,9 +52,9 @@ app.get('/smsReceived', function(req, res) {
 	if (pollInstance && (choice.length > 0)) { // If we reveived SMS in the correct format add to tallly
 		console.log(choice);
 		console.log('Valid Vote received');
-		
+
 		registerVote(pollInstance, choice, sender);
-	    
+
 	} else {
 		console.log('Invalid Vote');
 	}
@@ -91,7 +90,7 @@ var server = app.listen(app.get('port'), function () {
 
 var registerVote = function(event_name, choice, sender) {
 
-	var insertQuery = votes_table.insert(votes_table.event_name.value(event_name), 
+	var insertQuery = votes_table.insert(votes_table.event_name.value(event_name),
 		votes_table.choice.value(choice),
 		votes_table.phone_no.value(sender)).toQuery();
 	// var updateQuery = votes_table.update()
@@ -112,7 +111,7 @@ var registerVote = function(event_name, choice, sender) {
 		        		done();
 		        	}
 		        });
-	        }   
+	        }
 	    });
 }
 
@@ -138,6 +137,6 @@ var countVotes = function(callback) {
 		        		callback(result.rows, null);
 		        	}
 		        });
-	        }   
+	        }
 	    });
 }
