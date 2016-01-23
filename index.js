@@ -113,6 +113,17 @@ var registerVote = function(event_name, choice, sender) {
 		        		console.log('error: ' + err.message);
 		        	} else {
 		        		console.log('success: ' + result.rows[0]);
+								if (result.rows[0] === undefined) {
+									client.query(insertQuery.text, insertQuery.values, function(err, result) {
+										if (err) {
+											console.error('Race Condition occured', err);
+										} else {
+											console.log('success: ' + result.rows[0]);
+											done();
+										}
+									})
+
+								}
 		        		done();
 		        	}
 		        });
