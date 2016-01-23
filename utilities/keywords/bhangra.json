@@ -1,11 +1,11 @@
 {
   "First_Class_Bhangra": ["1", "one"],
-  "Wash_U_Bhangra": ["2", "two"],
-  "Ministry_of_Bhangra": ["3", "three"],
-  "Michigan_Bhangra_Team": ["4", "four"],
-  "Spartan_Bhangra": ["5", "five"],
-  "Drexel_Bhangra": ["6", "six"],
-  "Husky_Bhangra": ["7", "seven"],
+  "Wash_U_Bhangra": ["5", "five"],
+  "Ministry_of_Bhangra": ["2", "two"],
+  "Michigan_Bhangra_Team": ["6", "six"],
+  "Spartan_Bhangra": ["3", "three"],
+  "Drexel_Bhangra": ["7", "seven"],
+  "Husky_Bhangra": ["4", "four"],
   "CMU_Bhangra": ["8", "eight"],
   "TEST_KEYWORD": ["9", "test", "nine"]
 }
