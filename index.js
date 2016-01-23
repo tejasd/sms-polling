@@ -2,6 +2,8 @@
 var app = require('express')();
 var pg = require('pg');
 var connectionString = process.env.DATABASE_URL;
+var nexmo = require('easynexmo');
+nexmo.initialize(process.env.NEXMO_KEY, process.env.NEXMO_SECRET, false);
 
 var voteKeywords = require('./utilities/loadWords').voteKeywords;
 var eventKeywords = require('./utilities/loadWords').eventKeywords;
@@ -56,6 +58,14 @@ app.get('/smsReceived', function(req, res) {
 
 	} else {
 		console.log('Invalid Vote');
+		if (sender.length === 11) {
+			if (counter > 0) {
+				nexmo.sendTextMessage('12092603494',sender,`Hey ${sender}! We couldn't understand your choice! Please check your message and send again :)`,{},function() {
+					console.log('Sent SMS for invalid vote')
+				});
+			}
+
+		}
 	}
 });
 
