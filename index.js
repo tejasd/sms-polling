@@ -12,6 +12,8 @@ var votes_table = require('./schema.js').votes;
 
 var trim = require('trim');
 
+var counter = 200;
+
 console.log(voteKeywords);
 console.log(eventKeywords);
 
