@@ -108,7 +108,7 @@ var registerVote = function(event_name, choice, sender) {
 	          console.log(err);
 	        } else {
 	        	// SQL Query > Insert Data
-		        client.query.(insertQuery.text, insertQuery.values, function(err, result) {
+		        client.query(insertQuery.text, insertQuery.values, function(err, result) {
 		        	if (err) {
 		        		console.error('Someone tried double voting: ', err);
 								done();
