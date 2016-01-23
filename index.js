@@ -123,7 +123,7 @@ var registerVote = function(event_name, choice, sender) {
 										}
 									})
 								}
-		        		// done();
+		        		done();
 		        	}
 		        });
 	        }
