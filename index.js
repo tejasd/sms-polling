@@ -1,7 +1,7 @@
 'use strict';
-var app = require('express')();
+var express = require('express');
+var app = express();
 var corser = require("corser");
-
 
 var pg = require('pg');
 var connectionString = process.env.DATABASE_URL;
