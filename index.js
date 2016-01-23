@@ -98,7 +98,8 @@ var registerVote = function(event_name, choice, sender) {
 										.where(
 											votes_table.event_name.equals(event_name).and(votes_table.phone_no.equals(sender))
 										).toQuery();
-	console.log(insertQuery);
+	console.log(selectQuery);
+	console.log(selectQuery.values);
 
 	pg.connect(connectionString, function(err, client, done) {
 	        // Handle connection errors
