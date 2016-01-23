@@ -41,7 +41,6 @@ app.get('/smsReceived', function(req, res) {
 
 	// If deciding event based on prefix keyword (eg. JHALAK in 'JHALAK Qurbani')
 	var pollInstance = req.query.text ? req.query.text.toLowerCase().split(" ")[0] : '';
-	console.log(pollInstance);
 	pollInstance = eventKeywords[pollInstance];
 
 	// Parsing response
@@ -49,21 +48,17 @@ app.get('/smsReceived', function(req, res) {
 	choice = voteKeywords[pollInstance] ? voteKeywords[pollInstance][choice] : '';
 	choice = choice !== undefined ? choice : '';
 
-	console.log('polling for' + pollInstance + 'with vote: ' + choice);
 
 	// Actually testing
 	if (pollInstance && (choice.length > 0)) { // If we reveived SMS in the correct format add to tallly
-		console.log(choice);
-		console.log('Valid Vote received');
-
+		console.log('Valid vote received for: ' + pollInstance + ' with vote: ' + choice + ' from sender: ' + sender);
 		registerVote(pollInstance, choice, sender);
 
 	} else {
-		console.log('Invalid Vote');
+		console.log('Invalid Vote from sender: ' + sender);
 		if (sender.length === 11) {
 			if (counter > 0) {
 				nexmo.sendTextMessage('12092603494',sender,`Hey ${sender}! We couldn't understand your choice! Please check your message and send again :)`,{},function() {
-					console.log('Sent SMS for invalid vote')
 				});
 			}
 
@@ -104,14 +99,6 @@ var registerVote = function(event_name, choice, sender) {
 	var insertQuery = votes_table.insert(votes_table.event_name.value(event_name),
 		votes_table.choice.value(choice),
 		votes_table.phone_no.value(sender)).toQuery();
-	var selectQuery = votes_table
-										.select(votes_table.choice)
-										.from(votes_table)
-										.where(
-											votes_table.event_name.equals(event_name).and(votes_table.phone_no.equals(sender))
-										).toQuery();
-	console.log(selectQuery);
-	console.log(selectQuery.values);
 
 	pg.connect(connectionString, function(err, client, done) {
 	        // Handle connection errors
@@ -122,20 +109,10 @@ var registerVote = function(event_name, choice, sender) {
 	        	// SQL Query > Insert Data
 		        client.query(insertQuery.text, insertQuery.values, function(err, result) {
 		        	if (err) {
-		        		console.error('Someone tried double voting: ', err);
+		        		console.error(sender + ' tried double voting: ', err);
 								done();
 		        	} else {
 		        		console.log('success: ' + result.rows[0]);
-								// if (result.rows[0] === undefined) {
-								// 	client.query(insertQuery.text, insertQuery.values, function(err, result) {
-								// 		if (err) {
-								// 			console.error('Race Condition occured', err);
-								// 		} else {
-								// 			console.log('success: ' + result.rows[0]);
-								// 			done();
-								// 		}
-								// 	})
-								// }
 		        		done();
 		        	}
 		        });
@@ -159,6 +136,7 @@ var countVotes = function(callback) {
 		        	if (err) {
 		        		console.log('error: ' + err);
 		        		callback(null, err);
+								done();
 		        	} else {
 		        		console.log('success: ' + result.rows[0]);
 		        		done();
