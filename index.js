@@ -108,21 +108,22 @@ var registerVote = function(event_name, choice, sender) {
 	          console.log(err);
 	        } else {
 	        	// SQL Query > Insert Data
-		        client.query(selectQuery.text, selectQuery.values, function(err, result) {
+		        client.query.(insertQuery.text, insertQuery.values, function(err, result) {
 		        	if (err) {
 		        		console.error('Someone tried double voting: ', err);
+								done();
 		        	} else {
 		        		console.log('success: ' + result.rows[0]);
-								if (result.rows[0] === undefined) {
-									client.query(insertQuery.text, insertQuery.values, function(err, result) {
-										if (err) {
-											console.error('Race Condition occured', err);
-										} else {
-											console.log('success: ' + result.rows[0]);
-											done();
-										}
-									})
-								}
+								// if (result.rows[0] === undefined) {
+								// 	client.query(insertQuery.text, insertQuery.values, function(err, result) {
+								// 		if (err) {
+								// 			console.error('Race Condition occured', err);
+								// 		} else {
+								// 			console.log('success: ' + result.rows[0]);
+								// 			done();
+								// 		}
+								// 	})
+								// }
 		        		done();
 		        	}
 		        });
