@@ -96,7 +96,7 @@ var registerVote = function(event_name, choice, sender) {
 										.select(votes_table.choice)
 										.from(votes_table)
 										.where(
-											votes_table.event_name.equals(event_name).and(votes.phone_no.equals(sender))
+											votes_table.event_name.equals(event_name).and(votes_table.phone_no.equals(sender))
 										).toQuery();
 	console.log(insertQuery);
 
