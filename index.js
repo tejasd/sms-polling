@@ -14,7 +14,6 @@ console.log(voteKeywords);
 console.log(eventKeywords);
 
 // Setup SMS format Regex
-// var smsRegex = new RegExp(/MD [A-H]/);
 var phoneNoRegex = new RegExp(/1[0-9]{10}/);
 
 // End point for nexmo to hit after it receives text messages
@@ -93,7 +92,12 @@ var registerVote = function(event_name, choice, sender) {
 	var insertQuery = votes_table.insert(votes_table.event_name.value(event_name),
 		votes_table.choice.value(choice),
 		votes_table.phone_no.value(sender)).toQuery();
-	// var updateQuery = votes_table.update()
+	var selectQuery = votes_table
+										.select(votes_table.choice)
+										.from(user)
+										.where(
+											votes_table.event_name.equals(event_name).and(votes.phone_no.equals(sender))
+										).toQuery();
 	console.log(insertQuery);
 
 	pg.connect(connectionString, function(err, client, done) {
@@ -103,9 +107,9 @@ var registerVote = function(event_name, choice, sender) {
 	          console.log(err);
 	        } else {
 	        	// SQL Query > Insert Data
-		        client.query(insertQuery.text, insertQuery.values, function(err, result) {
+		        client.query(selectQuery.text, selectQuery.values, function(err, result) {
 		        	if (err) {
-		        		console.log('error: ' + err);
+		        		console.log('error: ' + err.message);
 		        	} else {
 		        		console.log('success: ' + result.rows[0]);
 		        		done();
