@@ -113,7 +113,7 @@ label {
 }
 
 .stretch {
-    width: 100%;
+    width: auto;
     padding-left:0;
     padding-right:0;
 }
