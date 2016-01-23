@@ -75,7 +75,7 @@ app.get('/votes', function(req, res) {
 		if (err) {
 			res.sendStatus(500);
 		} else {
-			res.send(result);
+			res.send(transformVoteCount(result));
 		}
 	});
 });
@@ -145,4 +145,11 @@ var countVotes = function(callback) {
 		        });
 	        }
 	    });
+}
+
+var transformVoteCount = function(data) {
+	var result = {};
+	for (var i = 0; i < data.length; ++i) {
+		result[data[i].event_name][data[i].choice] = data[i].votes_count;
+	}
 }
