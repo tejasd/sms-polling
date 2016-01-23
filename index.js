@@ -1,5 +1,8 @@
 'use strict';
 var app = require('express')();
+var corser = require("corser");
+
+
 var pg = require('pg');
 var connectionString = process.env.DATABASE_URL;
 var nexmo = require('easynexmo');
@@ -13,6 +16,7 @@ var votes_table = require('./schema.js').votes;
 var trim = require('trim');
 
 var counter = 200;
+app.use(corser.create());
 
 console.log(voteKeywords);
 console.log(eventKeywords);
