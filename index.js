@@ -152,4 +152,5 @@ var transformVoteCount = function(data) {
 	for (var i = 0; i < data.length; ++i) {
 		result[data[i].event_name][data[i].choice] = data[i].votes_count;
 	}
+	return result;
 }
