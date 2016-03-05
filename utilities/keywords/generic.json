@@ -6,5 +6,6 @@
   "five": ["5", "five"],
   "six": ["6", "six"],
   "seven": ["7", "seven"],
-  "eight": ["8", "eight"]
+  "eight": ["8", "eight"],
+  "test": ["9", "nine"]
 }
