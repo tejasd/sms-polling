@@ -15,7 +15,7 @@ var votes_table = require('./schema.js').votes;
 
 var trim = require('trim');
 
-var counter = 200;
+var counter = 400;
 app.use(corser.create());
 app.use('/static', express.static(__dirname + '/public'));
 
