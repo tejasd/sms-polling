@@ -3,9 +3,9 @@
   "chalak": ["2", "two"],
   "qurbani": ["3", "three"],
   "kamaal": ["4", "four"],
-  "ATL Tanisqh": ["5", "five"],
+  "ATL_Tanisqh": ["5", "five"],
   "Dhoom": ["6", "six"],
-  "UT Saaya": ["7", "seven"],
+  "UT_Saaya": ["7", "seven"],
   "Genesis": ["8", "eight"],
   "test": ["9", "nine"]
 }
