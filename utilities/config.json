@@ -1,8 +1,8 @@
 {
 	"keywordToEvent": {
 			"testkeyword": "test_event",
-			"mdtest": "md_test"
+			"md": "miwest dhamaka"
 	},
-	"events": ["mdtest"],
-	"keywordFiles": ["generic.json"]
+	"events": ["md"],
+	"keywordFiles": ["midwest.json"]
 }
