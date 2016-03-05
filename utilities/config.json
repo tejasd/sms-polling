@@ -1,8 +1,10 @@
 {
 	"keywordToEvent": {
 			"testkeyword": "test_event",
-			"md": "md"
+			"mdc": "mdc",
+			"mdd": "mdd",
+			"mdt": "mdt"
 	},
-	"events": ["md"],
-	"keywordFiles": ["midwest.json"]
+	"events": ["mdc", "mdd", "mdt"],
+	"keywordFiles": ["midwest.json", "midwest.json", "midwest.json"]
 }
